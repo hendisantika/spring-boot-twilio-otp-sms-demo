@@ -3,6 +3,7 @@ package com.hendisantika.service;
 import com.hendisantika.config.TwilioProperties;
 import com.twilio.exception.ApiException;
 import com.twilio.rest.verify.v2.service.Verification;
+import com.twilio.rest.verify.v2.service.VerificationCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,18 @@ public class PhoneVerificationService {
             return new VerificationResult(new String[]{exception.getMessage()});
         }
         return null;
+    }
+
+    public VerificationResult checkVerification(String phone, String code) {
+        try {
+            VerificationCheck verification = VerificationCheck.creator(twilioProperties.getServiceId(), code).setTo(phone).create();
+            if ("approved".equals(verification.getStatus())) {
+                return new VerificationResult(verification.getSid());
+            }
+            return new VerificationResult(new String[]{"Invalid code."});
+        } catch (ApiException exception) {
+            return new VerificationResult(new String[]{exception.getMessage()});
+        }
     }
 
 }
