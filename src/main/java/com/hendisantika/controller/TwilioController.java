@@ -41,4 +41,14 @@ public class TwilioController {
         }
         return new ResponseEntity<>("Otp failed to sent..", HttpStatus.BAD_REQUEST);
     }
+
+    @PostMapping("/verifyotp")
+    public ResponseEntity<String> sendOTP(@RequestParam("phone") String phone, @RequestParam("otp") String otp) {
+        VerificationResult result = phoneSmsService.checkVerification(phone, otp);
+        if (result.isValid()) {
+            return new ResponseEntity<>("Your number is Verified", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Something wrong/ Otp incorrect", HttpStatus.BAD_REQUEST);
+    }
+
 }
