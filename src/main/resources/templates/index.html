@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org">
+
+<head>
+    <title>Twilio Example</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler" data-target="#navbarNavDropdown" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-target="#modalRegisterForm" data-toggle="modal">Book Trail</a>
+
+                </li>
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
+                       data-toggle="dropdown" href="#" id="navbarDropdownMenuLink">
+                        Dropdown link
+                    </a>
+                    <div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Book free</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+</div>
+
+<div class="container">
+    <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalRegisterForm" role="dialog"
+         tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Book</h4>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div style="padding:10px">
+                    <form action="#" autocomplete="off" method="post" th:action="@{/verifyotp}">
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Your Name</label>
+                            <input autocomplete="off" class="form-control" id="formGroupExampleInput" name="name"
+                                   placeholder="Your Name" type="text">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input aria-describedby="emailHelp" autocomplete="off" class="form-control"
+                                   id="exampleInputEmail1" name="email" placeholder="Enter email" type="email">
+                            <small class="form-text text-muted" id="emailHelp">We'll never share your email with anyone
+                                else.</small>
+                        </div>
+
+
+                        <div class="form-group row">
+
+                            <div class="col-sm-5">
+                                <label for="phone">Phone</label>
+                                <input autocomplete="off" class="form-control" id="phone" name="phone"
+                                       placeholder="+911234567890" type="tel">
+                            </div>
+                            <div class="col-sm-3" style="margin-top:6px;">
+                                <label for="otp">OTP</label>
+                                <input class="form-control btn btn-info" id="sendotp" name="otp" type="button"
+                                       value="sendOtp">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-3">
+                                <input autocomplete="off" class="form-control" name="otp" placeholder="Enter Otp"
+                                       type="text">
+                            </div>
+                        </div>
+
+
+                        <div class="modal-footer d-flex justify-content-center">
+                            <div class="row">
+
+                                <div class="col-md-8">
+                                    <button class="btn btn-success" name="action" type="submit" value="register">
+                                        Submit
+                                    </button>
+                                    <button class="btn btn-light" id="resendotp">resend Otp.</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script crossorigin="anonymous" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#sendotp,#resendotp').click(function () {
+
+            var phone = $('#phone').val();
+            //alert(phone);
+            $.ajax({
+                url: 'http://localhost:8080/sendotp',
+                method: 'POST',
+                data: {
+                    'phone': phone//pass value
+                },
+                success: function (data) {
+                    //success function
+                    //return data form server
+                    alert('Otp sent to:' + phone);
+                },
+                error: function (data) { //error function
+                    alert('Failed to send Otp :' + phone);
+                    console.log(data)
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
