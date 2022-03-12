@@ -7,3 +7,13 @@
 3. Change Twilio configuration with your own credentials.
 4. Run the application: `mvn clean spring-boot:run`
 5. Open your favorite browser: http://localhost:8888
+
+### Image Screen shot
+
+Send OTP Page
+
+![Send OTP Page](img/home.png "Send OTP Page")
+
+Verified Page
+
+![Verified Page](img/verified.png "Verified Page")
